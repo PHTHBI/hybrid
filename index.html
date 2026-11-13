@@ -106,7 +106,7 @@ button{-webkit-user-select:none;user-select:none;touch-action:manipulation}
 .exblock{border-bottom:.5px solid var(--sep);padding:6px 0}
 .exblock .fr{border-bottom:0;padding-top:6px;padding-bottom:6px}
 .exblock .fr.head input{font-weight:600}
-.sethead,.setrow{display:grid;grid-template-columns:24px 66px 58px 46px 1fr 22px;gap:6px;align-items:center;padding:4px 12px}
+.sethead,.setrow{display:grid;grid-template-columns:24px 66px 46px 58px 1fr 22px;gap:6px;align-items:center;padding:4px 12px}
 .sethead{font-size:11px;font-weight:600;color:var(--sec);text-transform:uppercase;padding-top:6px}
 .setrow b{text-align:center;font-size:15px}
 .setrow .pv{font-size:12px;color:var(--sec);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -130,7 +130,7 @@ button{-webkit-user-select:none;user-select:none;touch-action:manipulation}
 .bigtimer{font-size:58px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:-1px;font-family:ui-rounded,-apple-system,sans-serif}
 .progress{height:6px;border-radius:3px;background:var(--fill);overflow:hidden;margin:8px 30px 4px}
 .progress div{height:100%;background:var(--green);transition:width .3s}
-.setrow.lv,.sethead.lv{grid-template-columns:22px 60px 54px 42px 1fr 30px}
+.setrow.lv,.sethead.lv{grid-template-columns:22px 60px 42px 54px 1fr 30px}
 .setrow.done{background:color-mix(in srgb,var(--green) 13%,transparent)}
 .tick{background:none;border:0;font-size:24px;line-height:1;cursor:pointer;color:var(--sec);padding:0}
 .tick.on{color:var(--green)}
@@ -553,10 +553,10 @@ function renderEditor(){
         <div class="fr"><input class="full" style="font-weight:600" type="text" placeholder="Exercise (e.g. Back squat)" data-ex="${i}" data-k="name" value="${esc(e.name)}">
           ${pv?`<button class="chip" style="background:var(--fill);color:var(--orange)" data-copylast="${i}">Copy last</button>`:''}<button class="rm" data-rmex="${i}">Remove</button></div>
         ${pv?`<div style="padding:0 16px 8px;font-size:12px;color:var(--sec)">↺ Last time, ${new Date(pv.date).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}: ${esc(setsSummary(pv.ex))}</div>`:''}
-        <div class="sethead"><span>Set</span><span>Previous</span><span>${U.wUnit()}</span><span>Reps</span><span>Rest</span><span></span></div>
+        <div class="sethead"><span>Set</span><span>Previous</span><span>Reps</span><span>${U.wUnit()}</span><span>Rest</span><span></span></div>
         ${e.sets.map((st,j)=>`<div class="setrow"><b>${j+1}</b><span class="pv">${pv&&pv.ex.sets[j]?esc(setShort(pv.ex.sets[j])):'–'}</span>
-          <input type="text" inputmode="decimal" placeholder="0" data-ex="${i}" data-set="${j}" data-k="wT" value="${esc(st.wT)}">
           <input type="text" inputmode="numeric" placeholder="0" data-ex="${i}" data-set="${j}" data-k="rT" value="${esc(st.rT)}">
+          <input type="text" inputmode="decimal" placeholder="0" data-ex="${i}" data-set="${j}" data-k="wT" value="${esc(st.wT)}">
           <select data-ex="${i}" data-set="${j}" data-k="rest">${REST.map(r=>`<option value="${r}" ${r===st.rest?'selected':''}>${r===0?'–':fRest(r)}</option>`).join('')}</select>
           <button class="rm" data-rmset="${i}:${j}" aria-label="Remove set" ${e.sets.length<2?'style="visibility:hidden"':''}>✕</button></div>`).join('')}
         <div class="fr btnrow" style="justify-content:flex-start;border-top:.5px solid var(--sep)" data-addset="${i}">＋ Add set</div></div>`;
@@ -682,10 +682,10 @@ function renderLive(){
         <div class="fr"><input class="full" style="font-weight:600" type="text" placeholder="Exercise (e.g. Back squat)" data-ex="${i}" data-k="name" value="${esc(e.name)}">
           ${pv?`<button class="chip" style="background:var(--fill);color:var(--orange)" data-copylast="${i}">Copy last</button>`:''}<button class="rm" data-rmex="${i}">Remove</button></div>
         ${pv?`<div style="padding:0 16px 8px;font-size:12px;color:var(--sec)">↺ Last time: ${esc(setsSummary(pv.ex))}</div>`:''}
-        <div class="sethead lv"><span>Set</span><span>Previous</span><span>${U.wUnit()}</span><span>Reps</span><span>Rest</span><span style="text-align:center">✓</span></div>
+        <div class="sethead lv"><span>Set</span><span>Previous</span><span>Reps</span><span>${U.wUnit()}</span><span>Rest</span><span style="text-align:center">✓</span></div>
         ${e.sets.map((st,j)=>`<div class="setrow lv ${st.done?'done':''}"><b>${j+1}</b><span class="pv">${pv&&pv.ex.sets[j]?esc(setShort(pv.ex.sets[j])):'–'}</span>
-          <input type="text" inputmode="decimal" placeholder="0" data-ex="${i}" data-set="${j}" data-k="wT" value="${esc(st.wT)}">
           <input type="text" inputmode="numeric" placeholder="0" data-ex="${i}" data-set="${j}" data-k="rT" value="${esc(st.rT)}">
+          <input type="text" inputmode="decimal" placeholder="0" data-ex="${i}" data-set="${j}" data-k="wT" value="${esc(st.wT)}">
           <select data-ex="${i}" data-set="${j}" data-k="rest">${REST.map(r=>`<option value="${r}" ${r===st.rest?'selected':''}>${r===0?'–':fRest(r)}</option>`).join('')}</select>
           <button class="tick ${st.done?'on':''}" data-tick="${i}:${j}" aria-label="Set done">${st.done?'●':'○'}</button></div>`).join('')}
         <div class="fr btnrow" style="justify-content:flex-start;border-top:.5px solid var(--sep)" data-addset="${i}">＋ Add set</div></div>`;
